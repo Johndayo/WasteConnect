@@ -26,26 +26,29 @@ export default function Header({ currentView, onViewChange }: HeaderProps) {
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-200 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+        <div className="flex justify-between items-center h-14 sm:h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <div className="bg-green-600 p-2 rounded-lg">
-              <Recycle className="w-6 h-6 text-white" />
+          <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
+            <div className="bg-green-600 p-1.5 sm:p-2 rounded-lg">
+              <Recycle className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-900">WasteConnect</h1>
-              <p className="text-xs text-gray-500">Circular Economy Platform</p>
+            <div className="hidden xs:block sm:block">
+              <h1 className="text-sm sm:text-xl font-bold text-gray-900">WasteConnect</h1>
+              <p className="text-xs text-gray-500 hidden sm:block">Circular Economy Platform</p>
+            </div>
+            <div className="block xs:hidden">
+              <h1 className="text-sm font-bold text-gray-900">WC</h1>
             </div>
           </div>
 
           {/* Navigation */}
-          <nav className="flex space-x-8">
+          <nav className="hidden lg:flex space-x-4 xl:space-x-8 flex-1 justify-center">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => onViewChange(item.id)}
-                className={`px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+                className={`px-2 xl:px-3 py-2 text-xs xl:text-sm font-medium transition-colors duration-200 whitespace-nowrap ${
                   currentView === item.id
                     ? 'text-green-600 border-b-2 border-green-600'
                     : 'text-gray-600 hover:text-green-600'
@@ -57,21 +60,21 @@ export default function Header({ currentView, onViewChange }: HeaderProps) {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
             {/* Notifications */}
             <div className="relative">
               <button 
                 onClick={() => setShowNotifications(!showNotifications)}
-                className="p-2 text-gray-600 hover:text-green-600 transition-colors relative"
+                className="p-1.5 sm:p-2 text-gray-600 hover:text-green-600 transition-colors relative"
               >
-                <Bell className="w-5 h-5" />
+                <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
                 {notifications.some(n => n.unread) && (
-                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                  <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-red-500 rounded-full"></span>
                 )}
               </button>
               
               {showNotifications && (
-                <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
                   <div className="p-4 border-b border-gray-100">
                     <h3 className="text-lg font-semibold text-gray-900">Notifications</h3>
                   </div>
@@ -102,13 +105,13 @@ export default function Header({ currentView, onViewChange }: HeaderProps) {
             <div className="relative">
               <button 
                 onClick={() => setShowProfile(!showProfile)}
-                className="p-2 text-gray-600 hover:text-green-600 transition-colors"
+                className="p-1.5 sm:p-2 text-gray-600 hover:text-green-600 transition-colors"
               >
-                <User className="w-5 h-5" />
+                <User className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
               
               {showProfile && (
-                <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                <div className="absolute right-0 mt-2 w-56 sm:w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
                   <div className="p-4 border-b border-gray-100">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
@@ -145,17 +148,17 @@ export default function Header({ currentView, onViewChange }: HeaderProps) {
             {/* Mobile Menu Button */}
             <button 
               onClick={() => setShowMobileMenu(!showMobileMenu)}
-              className="md:hidden p-2 text-gray-600 hover:text-green-600 transition-colors"
+              className="lg:hidden p-1.5 sm:p-2 text-gray-600 hover:text-green-600 transition-colors"
             >
-              <Bell className="w-5 h-5" />
+              <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation Menu */}
         {showMobileMenu && (
-          <div className="md:hidden border-t border-gray-200 bg-white">
-            <div className="px-4 py-2 space-y-1">
+          <div className="lg:hidden border-t border-gray-200 bg-white">
+            <div className="px-3 sm:px-4 py-2 space-y-1">
               {navItems.map((item) => (
                 <button
                   key={item.id}
@@ -163,7 +166,7 @@ export default function Header({ currentView, onViewChange }: HeaderProps) {
                     onViewChange(item.id);
                     setShowMobileMenu(false);
                   }}
-                  className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                  className={`block w-full text-left px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${
                     currentView === item.id
                       ? 'text-green-600 bg-green-50'
                       : 'text-gray-600 hover:text-green-600 hover:bg-gray-50'
