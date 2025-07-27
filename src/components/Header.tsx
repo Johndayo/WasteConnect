@@ -13,9 +13,11 @@ export default function Header({ currentView, onViewChange }: HeaderProps) {
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard' },
+    { id: 'analytics', label: 'Analytics' },
     { id: 'listings', label: 'Waste Listings' },
     { id: 'providers', label: 'Service Providers' },
     { id: 'connections', label: 'My Connections' },
+    { id: 'messaging', label: 'Messages' },
   ];
 
   const notifications = [
@@ -125,7 +127,7 @@ export default function Header({ currentView, onViewChange }: HeaderProps) {
                   </div>
                   <div className="p-2">
                     <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">
-                      View Profile
+                      <span onClick={() => onViewChange('profile')}>View Profile</span>
                     </button>
                     <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">
                       Account Settings

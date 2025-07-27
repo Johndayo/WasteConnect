@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Search, Filter, MapPin, Star, Award, Briefcase, MessageCircle, Phone } from 'lucide-react';
+import { Search, Filter, MapPin, Star, Award, Briefcase, MessageCircle, Phone, Map } from 'lucide-react';
 import { mockServiceProviders } from '../data/mockData';
 import { User } from '../types';
+import MapView from './MapView';
 
 export default function ServiceProviders() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<User['type'] | 'all'>('all');
+  const [showMap, setShowMap] = useState(false);
+  const [selectedProvider, setSelectedProvider] = useState(null);
 
   const providerTypes = [
     { value: 'all' as const, label: 'All Providers' },
@@ -52,6 +55,17 @@ export default function ServiceProviders() {
         <button className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors">
           Become a Provider
         </button>
+        <button 
+          onClick={() => setShowMap(!showMap)}
+          className={`px-6 py-3 rounded-lg font-semibold transition-colors flex items-center ${
+            showMap 
+              ? 'bg-blue-600 text-white hover:bg-blue-700' 
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          }`}
+        >
+          <Map className="w-4 h-4 mr-2" />
+          {showMap ? 'Hide Map' : 'Show Map'}
+        </button>
       </div>
 
       {/* Filters */}
@@ -87,10 +101,26 @@ export default function ServiceProviders() {
         </div>
       </div>
 
+      {/* Map View */}
+      {showMap && (
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Service Providers Map</h2>
+          <MapView 
+            showWasteListings={false} 
+            showServiceProviders={true}
+            selectedProvider={selectedProvider}
+          />
+        </div>
+      )}
+
       {/* Providers Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {filteredProviders.map((provider) => (
-          <div key={provider.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+          <div 
+            key={provider.id} 
+            className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => setSelectedProvider(provider)}
+          >
             {/* Header */}
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-start justify-between mb-4">
