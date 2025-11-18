@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Star, MapPin, Calendar, Award, Globe, Phone, Mail, CreditCard as Edit3, Save, X } from 'lucide-react';
+import { User, Star, MapPin, Calendar, Award, Globe, Phone, Mail, Edit3, Save, X } from 'lucide-react';
 import { mockUsers } from '../data/mockData';
 
 export default function UserProfile() {
