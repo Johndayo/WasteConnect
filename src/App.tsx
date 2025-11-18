@@ -5,6 +5,9 @@ import Dashboard from './components/Dashboard';
 import WasteListings from './components/WasteListings';
 import ServiceProviders from './components/ServiceProviders';
 import Connections from './components/Connections';
+import UserProfile from './components/UserProfile';
+import Messaging from './components/Messaging';
+import Analytics from './components/Analytics';
 
 function App() {
   const [currentView, setCurrentView] = useState('dashboard');
@@ -19,6 +22,12 @@ function App() {
         return <ServiceProviders />;
       case 'connections':
         return <Connections />;
+      case 'profile':
+        return <UserProfile />;
+      case 'messaging':
+        return <Messaging />;
+      case 'analytics':
+        return <Analytics />;
       default:
         return <Dashboard />;
     }

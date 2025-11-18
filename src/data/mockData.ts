@@ -8,8 +8,15 @@ export const mockUsers: User[] = [
     type: 'generator',
     company: 'EcoTech Manufacturing Ltd.',
     location: 'San Francisco, CA',
+    coordinates: { lat: 37.7749, lng: -122.4194 },
     rating: 4.8,
     verified: true,
+    joinedDate: new Date('2023-06-15'),
+    completedProjects: 24,
+    certifications: ['ISO 14001', 'Zero Waste Certified'],
+    description: 'Leading manufacturer committed to sustainable practices and circular economy principles.',
+    website: 'https://ecotech.com',
+    phone: '+1 (555) 123-4567',
   },
   {
     id: '2',
@@ -18,8 +25,15 @@ export const mockUsers: User[] = [
     type: 'recycler',
     company: 'GreenCycle Solutions Inc.',
     location: 'Portland, OR',
+    coordinates: { lat: 45.5152, lng: -122.6784 },
     rating: 4.9,
     verified: true,
+    joinedDate: new Date('2023-03-20'),
+    completedProjects: 156,
+    certifications: ['R2 Certified', 'ISO 14001', 'LEED Certified'],
+    description: 'Premier recycling facility specializing in plastic and metal recovery with state-of-the-art processing.',
+    website: 'https://greencycle.com',
+    phone: '+1 (555) 987-6543',
   },
   {
     id: '3',
@@ -28,8 +42,15 @@ export const mockUsers: User[] = [
     type: 'upcycler',
     company: 'Creative Upcycle Co.',
     location: 'Austin, TX',
+    coordinates: { lat: 30.2672, lng: -97.7431 },
     rating: 4.7,
     verified: true,
+    joinedDate: new Date('2023-08-10'),
+    completedProjects: 89,
+    certifications: ['Sustainable Design Certified', 'Cradle to Cradle Certified'],
+    description: 'Innovative upcycling company creating beautiful products from waste materials.',
+    website: 'https://creativeupcycle.com',
+    phone: '+1 (555) 456-7890',
   },
   {
     id: '4',
@@ -38,8 +59,15 @@ export const mockUsers: User[] = [
     type: 'energy_expert',
     company: 'Renewable Energy Partners',
     location: 'Denver, CO',
+    coordinates: { lat: 39.7392, lng: -104.9903 },
     rating: 4.9,
     verified: true,
+    joinedDate: new Date('2023-01-05'),
+    completedProjects: 67,
+    certifications: ['Energy Engineer License', 'Green Energy Certified', 'NABCEP Certified'],
+    description: 'Expert team converting organic waste to clean energy through innovative biogas solutions.',
+    website: 'https://renewableep.com',
+    phone: '+1 (555) 321-0987',
   },
 ];
 
@@ -58,6 +86,11 @@ export const mockWasteListings: WasteListing[] = [
     availableFrom: new Date('2024-01-15'),
     tags: ['HDPE', 'clean', 'industrial'],
     status: 'available',
+    coordinates: { lat: 37.7749, lng: -122.4194 },
+    environmentalImpact: {
+      co2Saved: 1.2,
+      wasteReduced: 500,
+    },
   },
   {
     id: '2',
@@ -72,6 +105,11 @@ export const mockWasteListings: WasteListing[] = [
     availableFrom: new Date('2024-01-20'),
     tags: ['circuit boards', 'precious metals', 'data center'],
     status: 'available',
+    coordinates: { lat: 47.6062, lng: -122.3321 },
+    environmentalImpact: {
+      co2Saved: 0.8,
+      wasteReduced: 200,
+    },
   },
   {
     id: '3',
@@ -86,6 +124,11 @@ export const mockWasteListings: WasteListing[] = [
     availableFrom: new Date('2024-01-10'),
     tags: ['restaurant', 'daily', 'composting', 'biogas'],
     status: 'available',
+    coordinates: { lat: 34.0522, lng: -118.2437 },
+    environmentalImpact: {
+      co2Saved: 2.1,
+      wasteReduced: 50,
+    },
   },
 ];
 
@@ -162,3 +205,65 @@ export const mockConnections: Connection[] = [
     createdAt: new Date('2024-01-11'),
   },
 ];
+
+export const mockMessages: Message[] = [
+  {
+    id: '1',
+    senderId: '2',
+    receiverId: '1',
+    connectionId: '1',
+    content: 'Hi! We received your HDPE waste listing. Our facility can process this efficiently. When would be a good time for pickup?',
+    timestamp: new Date('2024-01-12T10:30:00'),
+    read: false,
+  },
+  {
+    id: '2',
+    senderId: '1',
+    receiverId: '2',
+    connectionId: '1',
+    content: 'Great! We can have it ready for pickup anytime this week. Do you need any specific documentation?',
+    timestamp: new Date('2024-01-12T14:15:00'),
+    read: true,
+  },
+  {
+    id: '3',
+    senderId: '3',
+    receiverId: '1',
+    connectionId: '2',
+    content: 'Perfect timing! We can start collecting your organic waste daily. Our biogas facility is running at optimal capacity.',
+    timestamp: new Date('2024-01-11T09:45:00'),
+    read: true,
+  },
+];
+
+export const mockAnalytics: AnalyticsData = {
+  totalWasteProcessed: 12500,
+  co2Saved: 45.8,
+  activeConnections: 23,
+  monthlyGrowth: 18.5,
+  wasteByCategory: [
+    { category: 'Plastic', amount: 4200, percentage: 33.6 },
+    { category: 'Organic', amount: 3100, percentage: 24.8 },
+    { category: 'Electronic', amount: 2800, percentage: 22.4 },
+    { category: 'Metal', amount: 1500, percentage: 12.0 },
+    { category: 'Paper', amount: 900, percentage: 7.2 },
+  ],
+  monthlyStats: [
+    { month: 'Jul', waste: 8200, co2: 28.5, connections: 15 },
+    { month: 'Aug', waste: 9100, co2: 32.1, connections: 18 },
+    { month: 'Sep', waste: 10500, co2: 38.2, connections: 21 },
+    { month: 'Oct', waste: 11200, co2: 41.5, connections: 19 },
+    { month: 'Nov', waste: 12100, co2: 44.1, connections: 22 },
+    { month: 'Dec', waste: 12500, co2: 45.8, connections: 23 },
+  ],
+  topProviders: [
+    { name: 'GreenCycle Solutions', projects: 156, rating: 4.9 },
+    { name: 'Creative Upcycle Co.', projects: 89, rating: 4.7 },
+    { name: 'Renewable Energy Partners', projects: 67, rating: 4.9 },
+  ],
+  environmentalImpact: {
+    treesEquivalent: 1250,
+    energySaved: 89500,
+    landfillDiverted: 11800,
+  },
+};
