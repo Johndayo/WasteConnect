@@ -3,14 +3,12 @@ import { Search, Filter, MapPin, Star, Award, Briefcase, MessageCircle, Phone, M
 import { mockServiceProviders } from '../data/mockData';
 import { User } from '../types';
 import MapView from './MapView';
-import FindProvidersModal from './FindProvidersModal';
 
 export default function ServiceProviders() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<User['type'] | 'all'>('all');
   const [showMap, setShowMap] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState(null);
-  const [showFindProviders, setShowFindProviders] = useState(false);
 
   const providerTypes = [
     { value: 'all' as const, label: 'All Providers' },
@@ -54,17 +52,9 @@ export default function ServiceProviders() {
           <h1 className="text-2xl font-bold text-gray-900">Service Providers</h1>
           <p className="text-gray-600">Connect with verified recyclers, upcyclers, and energy experts</p>
         </div>
-        <div className="flex space-x-3">
-          <button 
-            onClick={() => setShowFindProviders(true)}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-          >
-            Find Providers
-          </button>
-          <button className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-            Become a Provider
-          </button>
-        </div>
+        <button className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+          Become a Provider
+        </button>
         <button 
           onClick={() => setShowMap(!showMap)}
           className={`px-6 py-3 rounded-lg font-semibold transition-colors flex items-center ${
@@ -256,12 +246,6 @@ export default function ServiceProviders() {
           <p className="text-gray-600">Try adjusting your search criteria or browse all provider types.</p>
         </div>
       )}
-
-      {/* Find Providers Modal */}
-      <FindProvidersModal
-        isOpen={showFindProviders}
-        onClose={() => setShowFindProviders(false)}
-      />
     </div>
   );
 }
