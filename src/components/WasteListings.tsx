@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Search, Filter, MapPin, Calendar, Tag, Eye, MessageCircle } from 'lucide-react';
+import { Search, Filter, MapPin, Calendar, Tag, Eye, MessageCircle, Map } from 'lucide-react';
 import { mockWasteListings } from '../data/mockData';
 import { WasteCategory } from '../types';
+import MapView from './MapView';
 
 export default function WasteListings() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<WasteCategory | 'all'>('all');
+  const [showMap, setShowMap] = useState(false);
+  const [selectedListing, setSelectedListing] = useState(null);
 
   const categories: { value: WasteCategory | 'all'; label: string }[] = [
     { value: 'all', label: 'All Categories' },
@@ -53,6 +56,17 @@ export default function WasteListings() {
         <button className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors">
           Post New Listing
         </button>
+        <button 
+          onClick={() => setShowMap(!showMap)}
+          className={`px-6 py-3 rounded-lg font-semibold transition-colors flex items-center ${
+            showMap 
+              ? 'bg-blue-600 text-white hover:bg-blue-700' 
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          }`}
+        >
+          <Map className="w-4 h-4 mr-2" />
+          {showMap ? 'Hide Map' : 'Show Map'}
+        </button>
       </div>
 
       {/* Filters */}
@@ -88,10 +102,26 @@ export default function WasteListings() {
         </div>
       </div>
 
+      {/* Map View */}
+      {showMap && (
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Waste Listings Map</h2>
+          <MapView 
+            showWasteListings={true} 
+            showServiceProviders={false}
+            selectedListing={selectedListing}
+          />
+        </div>
+      )}
+
       {/* Listings Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredListings.map((listing) => (
-          <div key={listing.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+          <div 
+            key={listing.id} 
+            className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => setSelectedListing(listing)}
+          >
             {/* Image */}
             <div className="aspect-video bg-gray-200 relative overflow-hidden">
               <img
