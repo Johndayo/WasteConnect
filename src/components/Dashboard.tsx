@@ -1,8 +1,14 @@
 import React from 'react';
+import { useState } from 'react';
 import { TrendingUp, Users, Package, Zap, ArrowUpRight, Star } from 'lucide-react';
 import { mockWasteListings, mockServiceProviders, mockConnections } from '../data/mockData';
+import CreateListingModal from './CreateListingModal';
+import FindProvidersModal from './FindProvidersModal';
 
 export default function Dashboard() {
+  const [showCreateListing, setShowCreateListing] = useState(false);
+  const [showFindProviders, setShowFindProviders] = useState(false);
+
   const stats = [
     {
       title: 'Active Listings',
@@ -61,6 +67,12 @@ export default function Dashboard() {
     },
   ];
 
+  const handleCreateListing = (newListing: any) => {
+    // In a real app, this would save to the backend
+    console.log('New listing created:', newListing);
+    // You could add it to mockWasteListings or trigger a refresh
+  };
+
   return (
     <div className="space-y-8">
       {/* Welcome Section */}
@@ -74,10 +86,16 @@ export default function Dashboard() {
             Together, we're building a circular economy.
           </p>
           <div className="flex flex-wrap gap-4">
-            <button className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
+            <button 
+              onClick={() => setShowCreateListing(true)}
+              className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+            >
               Post New Listing
             </button>
-            <button className="border border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-green-600 transition-colors">
+            <button 
+              onClick={() => setShowFindProviders(true)}
+              className="border border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-green-600 transition-colors"
+            >
               Find Providers
             </button>
           </div>
@@ -149,6 +167,18 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <CreateListingModal
+        isOpen={showCreateListing}
+        onClose={() => setShowCreateListing(false)}
+        onSubmit={handleCreateListing}
+      />
+      
+      <FindProvidersModal
+        isOpen={showFindProviders}
+        onClose={() => setShowFindProviders(false)}
+      />
     </div>
   );
 }

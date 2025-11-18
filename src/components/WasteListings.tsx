@@ -3,12 +3,14 @@ import { Search, Filter, MapPin, Calendar, Tag, Eye, MessageCircle, Map } from '
 import { mockWasteListings } from '../data/mockData';
 import { WasteCategory } from '../types';
 import MapView from './MapView';
+import CreateListingModal from './CreateListingModal';
 
 export default function WasteListings() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<WasteCategory | 'all'>('all');
   const [showMap, setShowMap] = useState(false);
   const [selectedListing, setSelectedListing] = useState(null);
+  const [showCreateListing, setShowCreateListing] = useState(false);
 
   const categories: { value: WasteCategory | 'all'; label: string }[] = [
     { value: 'all', label: 'All Categories' },
@@ -45,6 +47,12 @@ export default function WasteListings() {
     return colors[category];
   };
 
+  const handleCreateListing = (newListing: any) => {
+    // In a real app, this would save to the backend
+    console.log('New listing created:', newListing);
+    // You could add it to mockWasteListings or trigger a refresh
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -53,9 +61,14 @@ export default function WasteListings() {
           <h1 className="text-2xl font-bold text-gray-900">Waste Listings</h1>
           <p className="text-gray-600">Discover available waste materials for recycling and upcycling</p>
         </div>
-        <button className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors">
-          Post New Listing
-        </button>
+        <div className="flex space-x-3">
+          <button 
+            onClick={() => setShowCreateListing(true)}
+            className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+          >
+            Post New Listing
+          </button>
+        </div>
         <button 
           onClick={() => setShowMap(!showMap)}
           className={`px-6 py-3 rounded-lg font-semibold transition-colors flex items-center ${
@@ -205,6 +218,13 @@ export default function WasteListings() {
           <p className="text-gray-600">Try adjusting your search criteria or browse all categories.</p>
         </div>
       )}
+
+      {/* Create Listing Modal */}
+      <CreateListingModal
+        isOpen={showCreateListing}
+        onClose={() => setShowCreateListing(false)}
+        onSubmit={handleCreateListing}
+      />
     </div>
   );
 }
