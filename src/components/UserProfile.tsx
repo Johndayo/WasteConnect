@@ -1,36 +1,63 @@
 import React, { useState } from 'react';
 import { User, Star, MapPin, Calendar, Award, Globe, Phone, Mail, Edit3, Save, X } from 'lucide-react';
-import { mockUsers } from '../data/mockData';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function UserProfile() {
+  const { user, profile, updateProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
-  const [user, setUser] = useState(mockUsers[0]); // Current user profile
+  const [loading, setLoading] = useState(false);
 
   const [editForm, setEditForm] = useState({
-    name: user.name,
-    company: user.company || '',
-    description: user.description || '',
-    website: user.website || '',
-    phone: user.phone || '',
-    location: user.location,
+    name: profile?.name || '',
+    company: profile?.company || '',
+    description: profile?.description || '',
+    website: profile?.website || '',
+    phone: profile?.phone || '',
+    location: profile?.location || '',
   });
 
-  const handleSave = () => {
-    setUser({ ...user, ...editForm });
-    setIsEditing(false);
+  const handleSave = async () => {
+    if (!user || !profile) return;
+    
+    setLoading(true);
+    try {
+      const { error } = await updateProfile(editForm);
+      if (error) {
+        console.error('Error updating profile:', error);
+        alert('Error updating profile. Please try again.');
+      } else {
+        setIsEditing(false);
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('Error updating profile. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCancel = () => {
     setEditForm({
-      name: user.name,
-      company: user.company || '',
-      description: user.description || '',
-      website: user.website || '',
-      phone: user.phone || '',
-      location: user.location,
+      name: profile?.name || '',
+      company: profile?.company || '',
+      description: profile?.description || '',
+      website: profile?.website || '',
+      phone: profile?.phone || '',
+      location: profile?.location || '',
     });
     setIsEditing(false);
   };
+
+  if (!user || !profile) {
+    return (
+      <div className="space-y-6">
+        <div className="text-center py-12">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Profile Not Found</h1>
+          <p className="text-gray-600">Please sign in to view your profile.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -44,6 +71,7 @@ export default function UserProfile() {
           {!isEditing ? (
             <button
               onClick={() => setIsEditing(true)}
+              disabled={loading}
               className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center"
             >
               <Edit3 className="w-4 h-4 mr-2" />
@@ -53,13 +81,15 @@ export default function UserProfile() {
             <div className="flex space-x-2">
               <button
                 onClick={handleSave}
-                className="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center"
+                disabled={loading}
+                className="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center disabled:opacity-50"
               >
                 <Save className="w-4 h-4 mr-2" />
-                Save
+                {loading ? 'Saving...' : 'Save'}
               </button>
               <button
                 onClick={handleCancel}
+                disabled={loading}
                 className="bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 transition-colors flex items-center"
               >
                 <X className="w-4 h-4 mr-2" />
@@ -76,13 +106,13 @@ export default function UserProfile() {
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <div className="text-center">
               <div className="w-24 h-24 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">
-                {user.name.charAt(0)}
+                {profile.name.charAt(0)}
               </div>
               
               {!isEditing ? (
                 <>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-1">{user.name}</h2>
-                  <p className="text-gray-600 mb-2">{user.company}</p>
+                  <h2 className="text-xl font-semibold text-gray-900 mb-1">{profile.name}</h2>
+                  <p className="text-gray-600 mb-2">{profile.company}</p>
                 </>
               ) : (
                 <div className="space-y-3 mb-4">
@@ -105,14 +135,14 @@ export default function UserProfile() {
 
               <div className="flex items-center justify-center space-x-2 mb-4">
                 <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                <span className="text-lg font-semibold text-gray-900">{user.rating}</span>
-                <span className="text-gray-600">({user.completedProjects} projects)</span>
+                <span className="text-lg font-semibold text-gray-900">{profile.rating}</span>
+                <span className="text-gray-600">({profile.completed_projects} projects)</span>
               </div>
 
               <div className="flex items-center justify-center text-sm text-gray-600 mb-4">
                 <MapPin className="w-4 h-4 mr-1" />
                 {!isEditing ? (
-                  <span>{user.location}</span>
+                  <span>{profile.location}</span>
                 ) : (
                   <input
                     type="text"
@@ -126,10 +156,10 @@ export default function UserProfile() {
 
               <div className="flex items-center justify-center text-sm text-gray-600 mb-6">
                 <Calendar className="w-4 h-4 mr-1" />
-                <span>Joined {user.joinedDate.toLocaleDateString()}</span>
+                <span>Joined {new Date(profile.created_at).toLocaleDateString()}</span>
               </div>
 
-              {user.verified && (
+              {profile.verified && (
                 <div className="flex items-center justify-center space-x-2 mb-4">
                   <Award className="w-5 h-5 text-green-500" />
                   <span className="text-sm font-medium text-green-600">Verified Account</span>
@@ -137,7 +167,7 @@ export default function UserProfile() {
               )}
 
               <div className="inline-flex px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                {user.type.charAt(0).toUpperCase() + user.type.slice(1).replace('_', ' ')}
+                {profile.user_type.charAt(0).toUpperCase() + profile.user_type.slice(1).replace('_', ' ')}
               </div>
             </div>
           </div>
@@ -150,7 +180,7 @@ export default function UserProfile() {
             <h3 className="text-lg font-semibold text-gray-900 mb-4">About</h3>
             {!isEditing ? (
               <p className="text-gray-600 leading-relaxed">
-                {user.description || 'No description provided.'}
+                {profile.description || 'No description provided.'}
               </p>
             ) : (
               <textarea
@@ -169,13 +199,13 @@ export default function UserProfile() {
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-gray-400" />
-                <span className="text-gray-600">{user.email}</span>
+                <span className="text-gray-600">{profile.email}</span>
               </div>
               
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-gray-400" />
                 {!isEditing ? (
-                  <span className="text-gray-600">{user.phone || 'Not provided'}</span>
+                  <span className="text-gray-600">{profile.phone || 'Not provided'}</span>
                 ) : (
                   <input
                     type="tel"
@@ -191,12 +221,12 @@ export default function UserProfile() {
                 <Globe className="w-5 h-5 text-gray-400" />
                 {!isEditing ? (
                   <a 
-                    href={user.website} 
+                    href={profile.website} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-green-600 hover:text-green-700 transition-colors"
                   >
-                    {user.website || 'Not provided'}
+                    {profile.website || 'Not provided'}
                   </a>
                 ) : (
                   <input
@@ -215,7 +245,7 @@ export default function UserProfile() {
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Certifications</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {user.certifications.map((cert, index) => (
+              {profile.certifications.map((cert, index) => (
                 <div key={index} className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
                   <Award className="w-5 h-5 text-green-500" />
                   <span className="text-sm font-medium text-gray-900">{cert}</span>
@@ -229,16 +259,16 @@ export default function UserProfile() {
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Statistics</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <div className="text-2xl font-bold text-blue-600">{user.completedProjects}</div>
+                <div className="text-2xl font-bold text-blue-600">{profile.completed_projects}</div>
                 <div className="text-sm text-gray-600">Completed Projects</div>
               </div>
               <div className="text-center p-4 bg-green-50 rounded-lg">
-                <div className="text-2xl font-bold text-green-600">{user.rating}</div>
+                <div className="text-2xl font-bold text-green-600">{profile.rating}</div>
                 <div className="text-sm text-gray-600">Average Rating</div>
               </div>
               <div className="text-center p-4 bg-purple-50 rounded-lg">
                 <div className="text-2xl font-bold text-purple-600">
-                  {Math.floor((Date.now() - user.joinedDate.getTime()) / (1000 * 60 * 60 * 24))}
+                  {Math.floor((Date.now() - new Date(profile.created_at).getTime()) / (1000 * 60 * 60 * 24))}
                 </div>
                 <div className="text-sm text-gray-600">Days Active</div>
               </div>
