@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Plus, Package, Clock, CheckCircle, Star, MapPin, Calendar } from 'lucide-react';
+import { Plus, Package, Clock, CircleCheck as CheckCircle, Star, MapPin, Calendar } from 'lucide-react';
 import RequestForm from '../components/RequestForm';
 
 export default function Dashboard() {

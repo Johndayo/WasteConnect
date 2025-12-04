@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Package, Clock, CheckCircle, XCircle, MapPin, Calendar, Phone, User } from 'lucide-react';
+import { Package, Clock, CircleCheck as CheckCircle, Circle as XCircle, MapPin, Calendar, Phone, User } from 'lucide-react';
 
 export default function CollectorDashboard() {
   const { user, token } = useAuth();
