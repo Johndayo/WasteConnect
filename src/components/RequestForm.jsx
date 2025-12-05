@@ -36,16 +36,12 @@ export default function RequestForm({ onClose, onSuccess }) {
     setError('');
 
     try {
-      const response = await fetch('/api/requests', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(formData)
-      });
+    fetch(`${API_BASE}/api/auth/login`, {
+  method: 'POST',
+  body: JSON.stringify({ phone, password }),
+  headers: { 'Content-Type': 'application/json' }
+})
 
-      const data = await response.json();
 
       if (response.ok) {
         // Show success message
