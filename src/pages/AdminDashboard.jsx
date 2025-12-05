@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { Package, Users, CircleCheck as CheckCircle, TrendingUp, User, Phone, Calendar } from 'lucide-react';
+import { Package, Users, CheckCircle
+        as CheckCircle, TrendingUp, User, Phone, Calendar } from 'lucide-react';
 
 const COLORS = ['#22c55e', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4'];
 
