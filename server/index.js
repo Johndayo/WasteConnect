@@ -10,8 +10,8 @@ const PORT = process.env.PORT || 3001;
 
 // Supabase client
 const supabase = createClient(
-  process.env.VITE_SUPABASE_URL,
-  process.env.VITE_SUPABASE_ANON_KEY
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
 );
 
 app.use(cors());
