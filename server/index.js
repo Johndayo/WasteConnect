@@ -14,7 +14,11 @@ const supabase = createClient(
   process.env.SUPABASE_KEY
 );
 
-app.use(cors());
+app.use(cors({
+  origin: [https://creative-parfait-3bf4f6.netlify.app], // <-- put your Bolt.new preview URL here
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Middleware to verify JWT token
