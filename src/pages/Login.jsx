@@ -64,7 +64,7 @@ export default function Login() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                placeholder="+1234567890"
+                placeholder="+2349033047170"
                 required
               />
             </div>
@@ -108,8 +108,8 @@ export default function Login() {
         <div className="mt-6 p-4 bg-gray-50 rounded-lg">
           <h3 className="font-medium text-gray-900 mb-2">Demo Accounts:</h3>
           <div className="text-sm text-gray-600 space-y-1">
-            <p><strong>Admin:</strong> +1234567890 / admin123</p>
-            <p><strong>Collector:</strong> +1234567891 / collector123</p>
+            <p><strong>Admin:</strong> +2349033047170 / admin123</p>
+            <p><strong>Collector:</strong> +2349033047170 / collector123</p>
           </div>
         </div>
       </div>
