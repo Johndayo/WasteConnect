@@ -36,7 +36,7 @@ export default function RequestForm({ onClose, onSuccess }) {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:3001/api/requests', {
+      const response = await fetch('/api/requests', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
